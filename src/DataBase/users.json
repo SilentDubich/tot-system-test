@@ -1,0 +1,11 @@
+{
+  "data": [
+    {
+      "userId": "0",
+      "firstName": "Kirill",
+      "secondName": "Dubov",
+      "status": "Ya sdelyal",
+      "avatar": "someString"
+    }
+  ]
+}

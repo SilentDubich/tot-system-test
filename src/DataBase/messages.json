@@ -1,0 +1,13 @@
+{
+  "data": [
+    {
+      "msgId": "0",
+      "senderFrstName": "Kirill",
+      "senderScndName": "Dubov",
+      "msgText": "Hello World !",
+      "isEdited": false,
+      "addedAt": "05.08.2020 12:50",
+      "senderAva": "some string"
+    }
+  ]
+}

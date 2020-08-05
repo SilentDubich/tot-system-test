@@ -1,0 +1,10 @@
+{
+  "data": [
+    {
+      "userId": "0",
+      "email": "some mail",
+      "login": "Silent",
+      "password": "some hash password"
+    }
+  ]
+}
