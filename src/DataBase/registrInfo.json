@@ -1,0 +1,15 @@
+{
+  "data": [
+    {
+      "checkInfo": {
+        "email": "some mail",
+        "password": "some hash password"
+      },
+      "resInfo": {
+        "userId": 0,
+        "email": "some mail",
+        "login": "Silent"
+      }
+    }
+  ]
+}

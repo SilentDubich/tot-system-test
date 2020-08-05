@@ -1,0 +1,42 @@
+{
+  "data": [
+    {
+      "msgId": 0,
+      "senderFrstName": "Kirill",
+      "senderScndName": "Dubov",
+      "msgText": "Hello World !",
+      "isEdited": false,
+      "addedAt": "05.08.2020 12:50",
+      "senderAva": "some string"
+    },
+    {
+      "msgId": 1,
+      "senderFrstName": "Kirill",
+      "senderScndName": "Dubov",
+      "msgText": "dwadwd",
+      "isEdited": false,
+      "addedAt": "Wed Aug 05 2020",
+      "senderAva": "some string"
+    },
+    {
+      "msgId": 2,
+      "senderFrstName": "Kirill",
+      "senderScndName": "Dubov",
+      "msgText": "hello",
+      "isEdited": false,
+      "addedAt": "Wed Aug 05 2020",
+      "senderAva": "some string"
+    },
+    {
+      "msgId": 3,
+      "senderFrstName": "Kirill",
+      "senderScndName": "Dubov",
+      "msgText": "hi",
+      "isEdited": false,
+      "addedAt": "Wed Aug 05 2020",
+      "senderAva": "some string"
+    }
+  ],
+  "resultCode": 0,
+  "errors": []
+}

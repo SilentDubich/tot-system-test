@@ -4,9 +4,21 @@ import Pendalf from "../../DataBase/imgs/pendalf.jpg";
 type ActionProfileType = InferActionsTypes<typeof actionsProfile>
 type ThunkProfileType = ThunkAction<Promise<void>, AppStateType, unknown, ActionProfileType>
 export const actionsProfile = {
-    setProfile: (user: ProfileType) => ({type: 'profileReducer/setProfile', user} as const)
+    setProfile: (user: ProfileType) => ({type: 'profileReducer/setProfile', user} as const),
+    setLogData: (data: LogData) => ({type: 'profileReducer/setLogData', data} as const)
 }
 
+export const getProfileThunk = (email: string, password: string): ThunkProfileType => {
+    return async (dispatch) => {
+
+    }
+}
+
+type LogData = {
+    userId: number
+    email: string
+    isLogged: boolean
+}
 type ProfileType = {
     userId: number,
     firstName: string,
@@ -23,6 +35,7 @@ let initialState = {
         status: 'Ya sdelyal',
         avatar: Pendalf
     } as ProfileType,
+    loginData: {} as LogData
 }
 
 type initialStateType = typeof initialState
@@ -31,6 +44,8 @@ export const profileInstructions = (state = initialState, action: ActionProfileT
     switch (action.type) {
         case "profileReducer/setProfile":
             return {...state, profileData: action.user}
+        case "profileReducer/setLogData":
+            return {...state, loginData: action.data}
         default:
             return state
     }

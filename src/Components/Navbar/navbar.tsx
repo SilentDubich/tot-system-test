@@ -8,6 +8,9 @@ export const Navbar: FC<any> = props => {
         <div>
             <ul>
                 <li>
+                    <NavLink to='/login'>Login</NavLink>
+                </li>
+                <li>
                     <NavLink to='/profile'>My Profile</NavLink>
                 </li>
                 <li>

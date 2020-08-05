@@ -1,16 +1,15 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import {MyProfileWrapper} from "./Components/MyProfile/myProfile";
 import {Navbar} from "./Components/Navbar/navbar";
 import {Redirect, Route, Switch} from "react-router";
 import {CommonChatWrapper} from "./Components/CommonChat/commonChat";
-import {WorkChat} from "./Components/WorkChat/workChat";
+import {LoginPage} from "./Components/Login/loginPage";
 
 export const App = (props: any) => {
     let Profile = () => <MyProfileWrapper/>
     let Common = () => <CommonChatWrapper/>
-    let Work = () => <WorkChat/>
+    let Login = () => <LoginPage/>
   return (
       <div>
           <div>
@@ -20,7 +19,8 @@ export const App = (props: any) => {
             <Switch>
                 <Route path='/profile' render={Profile}/>
                 <Route path='/common' render={Common}/>
-                <Route path='/work' render={Work}/>
+                <Route path='/work' render={Common}/>
+                <Route path='/login' render={Login}/>
                 <Redirect from='/' to='/profile'/>
             </Switch>
         </div>

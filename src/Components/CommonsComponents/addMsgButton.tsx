@@ -7,22 +7,24 @@ type PropsType = {
     sn: string
     ava: string
     addMsg: (data: MessageType) => void
+    postMsg: (text: string, method: string) => void
+    loc: string
 }
 
 
 export const AddMsgButton: FC<PropsType> = (props) => {
     const addMessage = () => {
-        const data = {
-            msgId: 10,
-            senderFrstName: props.fn,
-            senderScndName: props.sn,
-            msgText: props.msgText,
-            isEdited: false,
-            addedAt: new Date().toDateString(),
-            senderAva: props.ava
-        }
-        props.addMsg(data)
-
+        props.postMsg(props.msgText, props.loc)
+        // const data = {
+        //     msgId: 10,
+        //     senderFrstName: props.fn,
+        //     senderScndName: props.sn,
+        //     msgText: props.msgText,
+        //     isEdited: false,
+        //     addedAt: new Date().toDateString(),
+        //     senderAva: props.ava
+        // }
+        // props.addMsg(data)
     }
     return (
         <div>
