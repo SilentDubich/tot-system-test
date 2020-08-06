@@ -2,12 +2,15 @@ const http = require("http");
 const express = require("express")
 const app = express()
 const fs = require("fs")
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser')
-const crypto = require('crypto');
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser")
+const crypto = require("crypto");
+const multer = require("multer")
 app.use(cookieParser('secret key'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json())
+app.use(express.static(__dirname));
+app.use(multer({dest:"src/DataBase/imgs"}).single("filedata"));
 
 const sendTempFile = (resData, response) => {
     fs.writeFile(__dirname + "/src/DataBase/temp.json", JSON.stringify(resData), function (err) {
@@ -60,6 +63,7 @@ app.post("/messages", function (request, response) {
         })
         const msg = {
             msgId: max.msgId + 1,
+            senderId: request.body.senderId,
             senderFrstName: request.body.fn,
             senderScndName: request.body.sn,
             msgText: request.body.text,
@@ -75,6 +79,40 @@ app.post("/messages", function (request, response) {
     })
 });
 
+app.put("/messages", function (request, response) {
+    setOptions(response)
+    let msgs = fs.readFile(__dirname + `/src/DataBase/messages${request.body.method}.json`, 'utf-8', function (err, data) {
+        if (err) throw err
+        msgs = JSON.parse(data)
+        msgs = msgs.data.map(el => el.msgId === request.body.msgId ? {
+            msgId: el.msgId, senderFrstName: el.senderFrstName,
+            senderScndName: el.senderScndName, msgText: request.body.text, isEdited: true,
+            addedAt: el.addedAt, senderAva: el.senderAva
+        } : el)
+        const newMsgs = {data: msgs}
+        fs.writeFile(__dirname + `/src/DataBase/messages${request.body.method}.json`, JSON.stringify(newMsgs), function (err) {
+            if (err) throw err
+            response.sendFile(__dirname + `/src/DataBase/messages${request.body.method}.json`);
+        })
+    })
+
+})
+
+app.delete('/messages', function (request, response) {
+    setOptions(response)
+    let msgs = fs.readFile(__dirname + `/src/DataBase/messages${request.body.method}.json`, 'utf-8', function (err, data) {
+        if (err) throw err
+        msgs = JSON.parse(data)
+        msgs = msgs.data.filter(el => el.msgId !== request.body.msgId)
+        const newMsgs = {data: msgs}
+        fs.writeFile(__dirname + `/src/DataBase/messages${request.body.method}.json`, JSON.stringify(newMsgs), function (err) {
+            if (err) throw err
+            response.sendFile(__dirname + `/src/DataBase/messages${request.body.method}.json`);
+        })
+    })
+
+})
+
 app.post("/auth/login", function (request, response) {
     setOptions(response)
     let email = setCrypt(request.body.email)
@@ -84,9 +122,9 @@ app.post("/auth/login", function (request, response) {
         let users = JSON.parse(data)
         let result = users.data.filter(el => el.emailCode === email && el.passwordCode === password && el)
         if (result.length > 0) {
-            response.cookie('email', email, {maxAge: 3600 * 24 * 7})
-            response.cookie('password', password, {maxAge: 3600 * 24 * 7})
-            console.log(result)
+            let time = (3600 * 24 * 7) * 2000 // время жизни куки, выставлено 14 дней
+            response.cookie('email', email, {maxAge: time})
+            response.cookie('password', password, {maxAge: time})
             const sendData = {
                 userId: result[0].userId,
                 email: result[0].email,
@@ -95,6 +133,18 @@ app.post("/auth/login", function (request, response) {
             sendTempFile(sendData, response)
         }
     })
+})
+
+app.delete('/auth/login', function (request, response) {
+    setOptions(response)
+    response.cookie('email', '')
+    response.cookie('password', '')
+    const resData = {
+        userId: null,
+        email: null,
+        isLogged: false
+    }
+    sendTempFile(resData, response)
 })
 
 app.post('/auth/register', function (request, response) {
@@ -122,13 +172,95 @@ app.post('/auth/register', function (request, response) {
             email: request.body.email,
             isLogged: true
         }
+        const newUser = {
+            userId: max.userId + 1,
+            firstName: "New",
+            secondName: "User",
+            status: null,
+            avatar: null
+        }
         registUsers.data.push(newRegistUser)
         fs.writeFile(__dirname + `/src/DataBase/registrInfo.json`, JSON.stringify(registUsers), function (err) {
             if (err) throw err
         })
+        fs.readFile(__dirname + `/src/DataBase/users.json`, 'utf-8', function (err, data) {
+            if (err) throw err
+            let users = JSON.parse(data)
+            users.data.push(newUser)
+            fs.writeFile(__dirname + `/src/DataBase/users.json`, JSON.stringify(users), function (err) {
+                if (err) throw err
+            })
+        })
+        response.cookie('email', email, {maxAge: 3600 * 24 * 7})
+        response.cookie('password', password, {maxAge: 3600 * 24 * 7})
         sendTempFile(resData, response)
     })
+})
+
+app.get("/auth/me", function (request, response) {
+    setOptions(response)
+    let email = request.cookies.email
+    let password = request.cookies.password
+    fs.readFile(__dirname + '/src/DataBase/registrInfo.json', 'utf-8', function (err, data) {
+        let result = JSON.parse(data)
+        result = result.data.filter( el => el.emailCode === email && el.passwordCode === password)
+        if (result.length > 0) {
+            const resData = {
+                userId: result[0].userId,
+                email: result[0].email,
+                isLogged: true
+            }
+            sendTempFile(resData, response)
+        } else {
+            const resData = {
+                userId: null,
+                email: null,
+                isLogged: false
+            }
+            sendTempFile(resData, response)
+        }
+    })
+})
+
+app.get('/profile', function (request, response) {
+    setOptions(response)
+    fs.readFile(__dirname + '/src/DataBase/users.json', 'utf-8', function (err, data) {
+        if (err) throw err
+        let users = JSON.parse(data)
+        users = users.data.filter(el => el.userId === +request.query.userId)
+        if (users.length > 0) {
+            sendTempFile(users[0], response)
+        }
+    })
+})
+
+app.put('/profile', function (request, response) {
+    setOptions(response)
+    fs.readFile(__dirname + '/src/DataBase/users.json', 'utf-8', function (err, data) {
+        if (err) throw err
+        let users = JSON.parse(data)
+        let me = users.data.filter(el => el.userId === request.body.userId)
+        // console.log(me)
+        me[0].firstName = request.body.fn
+        me[0].secondName = request.body.sn
+        me[0].status = request.body.status
+        console.log(me)
+        users.data.map(el => el.userId === request.body.userId ? me : el)
+        fs.writeFile(__dirname + `/src/DataBase/users.json`, JSON.stringify(users), function (err) {
+            if (err) throw err
+            sendTempFile(me, response)
+        })
+
+    })
+})
+
+app.put('/profile/photo', function (request, response) {
+    setOptions(response)
+    console.log('photo')
+    console.log(request)
+    console.log(request.file)
 
 })
+
 // начинаем прослушивать подключения на 3000 порту
 app.listen(3001);

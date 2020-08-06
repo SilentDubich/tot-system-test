@@ -2,6 +2,7 @@
   "data": [
     {
       "msgId": 0,
+      "senderId": 0,
       "senderFrstName": "Kirill",
       "senderScndName": "Dubov",
       "msgText": "Hello Work !",
@@ -11,6 +12,7 @@
     },
     {
       "msgId": 1,
+      "senderId": 0,
       "senderFrstName": "Kirill",
       "senderScndName": "Dubov",
       "msgText": "dwadawdad",
@@ -20,14 +22,23 @@
     },
     {
       "msgId": 2,
+      "senderId": 0,
       "senderFrstName": "Kirill",
       "senderScndName": "Dubov",
       "msgText": "Hello wor",
       "isEdited": false,
       "addedAt": "Wed Aug 05 2020",
       "senderAva": "some string"
+    },
+    {
+      "msgId": 3,
+      "senderId": 0,
+      "senderFrstName": "Kirill",
+      "senderScndName": "Dubov",
+      "msgText": "hii",
+      "isEdited": true,
+      "addedAt": "Thu Aug 06 2020",
+      "senderAva": "/static/media/pendalf.698b2495.jpg"
     }
-  ],
-  "resultCode": 0,
-  "errors": []
+  ]
 }

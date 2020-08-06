@@ -6,6 +6,7 @@ import {Redirect, Route, Switch} from "react-router";
 import {CommonChatWrapper} from "./Components/CommonChat/commonChat";
 import {LoginPageWrapper} from "./Components/Login/loginPage";
 import {RegisterPageWrapper} from "./Components/Registration/registrPage";
+import {LogOutPageWrapper} from "./Components/Login/logOutPage";
 
 export const App = (props: any) => {
     let Profile = () => <MyProfileWrapper/>
@@ -14,6 +15,9 @@ export const App = (props: any) => {
     let Registr = () => <RegisterPageWrapper/>
   return (
       <div>
+          <div>
+              <LogOutPageWrapper/>
+          </div>
           <div>
               <Navbar/>
           </div>
@@ -29,4 +33,5 @@ export const App = (props: any) => {
       </div>
   );
 }
+
 

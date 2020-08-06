@@ -8,17 +8,18 @@ type ThunkMsgType = ThunkAction<Promise<void>, AppStateType, unknown, ActionMsgT
 export const actionsMsg = {
     getMsgs: (data: Array<MessageType>) => ({type: 'messageReducer/getMsgs', data} as const),
     addMsg: (data: MessageType) => ({type: 'messageReducer/addMsg', data} as const),
-    updateInputText: (text: string) => ({type: 'messageReducer/updUnpTxt', text} as const)
+    updateInputText: (text: string) => ({type: 'messageReducer/updUnpTxt', text} as const),
 }
 
 
 export type MessageType = {
-    msgId: number,
-    senderFrstName: string,
-    senderScndName: string,
-    msgText: string,
-    isEdited: boolean,
-    addedAt: string,
+    msgId: number
+    senderId: number
+    senderFrstName: string
+    senderScndName: string
+    msgText: string
+    isEdited: boolean
+    addedAt: string
     senderAva: string
 }
 
@@ -29,45 +30,30 @@ export const getMessagesThunk = (method: string): ThunkMsgType => {
     }
 }
 
-export const postMessageThunk = (text: string, method: string, fn: string, sn: string, ava: string): ThunkMsgType => {
+export const postMessageThunk = (text: string, method: string, senderId: number, fn: string, sn: string, ava: string): ThunkMsgType => {
     return async (dispatch) => {
-        let data = await api.postMessage(text, method, fn, sn, ava)
+        let data = await api.postMessage(text, method, senderId, fn, sn, ava)
+        dispatch(actionsMsg.getMsgs(data.data.data))
+    }
+}
+
+export const editMessageThunk = (text: string, method: string, msgId: number): ThunkMsgType => {
+    return async (dispatch) => {
+        let data = await api.editMessage(text, method, msgId)
+        dispatch(actionsMsg.getMsgs(data.data.data))
+    }
+}
+
+export const deleteMsgThunk = (msgId: number, loc: string): ThunkMsgType => {
+    return async (dispatch) => {
+        let data = await api.deleteMsg(msgId, loc)
         dispatch(actionsMsg.getMsgs(data.data.data))
     }
 }
 
 
-
 let initialMsgState = {
-    messages: [
-        {
-            msgId: 0,
-            senderFrstName: "Kirill",
-            senderScndName: "Dubov",
-            msgText: "Hello World !",
-            isEdited: false,
-            addedAt: "05.08.2020 12:50",
-            senderAva: "some string"
-        },
-        {
-            msgId: 1,
-            senderFrstName: "Kirill",
-            senderScndName: "Dubov",
-            msgText: "Hello World !",
-            isEdited: false,
-            addedAt: "05.08.2020 12:50",
-            senderAva: "some string"
-        },
-        {
-            msgId: 2,
-            senderFrstName: "Kirill",
-            senderScndName: "Dubov",
-            msgText: "Hello World !",
-            isEdited: false,
-            addedAt: "05.08.2020 12:50",
-            senderAva: "some string"
-        },
-    ] as Array<MessageType>,
+    messages: [] as Array<any>,
     text: ''
 }
 

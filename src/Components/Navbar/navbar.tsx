@@ -19,6 +19,9 @@ export const Navbar: FC<any> = props => {
                 <li>
                     <NavLink to='/work'>Work chat</NavLink>
                 </li>
+                <li>
+                    <NavLink to='/settings'>Settings</NavLink>
+                </li>
             </ul>
         </div>
     )

@@ -1,7 +1,8 @@
 import {AppStateType, InferActionsTypes} from "../store";
 import {ThunkAction} from "redux-thunk";
-import Pendalf from "../../DataBase/imgs/pendalf.jpg";
 import {api} from "../API";
+// import Pendalf from '../../DataBase/imgs/pendalf.jpg'
+
 type ActionProfileType = InferActionsTypes<typeof actionsProfile>
 type ThunkProfileType = ThunkAction<Promise<void>, AppStateType, unknown, ActionProfileType>
 export const actionsProfile = {
@@ -11,10 +12,41 @@ export const actionsProfile = {
     updLogPassw: (password: string) => ({type: 'profileReducer/updLogPassw', password} as const)
 }
 
+export const updateProfileInfoThunk = (userId: number | null, fn: string, sn: string, status: string): ThunkProfileType => {
+    return async (dispatch) => {
+        let data = await api.updateProfileInfo(userId, fn, sn, status)
+        await dispatch(actionsProfile.setProfile(data.data[0]))
+    }
+}
+
+export const updateProfilePhoto = (photo: any): ThunkProfileType => {
+    return async (dispatch) => {
+        // debugger
+        // let data = await api.updateProfilePhoto(photo)
+        // debugger
+    }
+}
+
 export const authProfileThunk = (email: string, password: string): ThunkProfileType => {
     return async (dispatch) => {
         let data = await api.postLog(email, password)
         dispatch(actionsProfile.setLogData(data.data))
+        await dispatch(getProfileThunk(data.data.userId))
+    }
+}
+
+export const logOutProfileThunk = (): ThunkProfileType => {
+    return async (dispatch) => {
+        let data = await api.postLogOut()
+        dispatch(actionsProfile.setLogData(data.data))
+        let profileData = {
+            userId: null,
+            firstName: null,
+            secondName: null,
+            status: null,
+            avatar: undefined
+        }
+        dispatch(actionsProfile.setProfile(profileData))
     }
 }
 
@@ -25,31 +57,45 @@ export const registerProfileThunk = (email: string, password: string): ThunkProf
     }
 }
 
-type LogData = {
-    userId: number
-    email: string
-    isLogged: boolean
+export const getAuthThunk = (): ThunkProfileType => {
+    return async (dispatch) => {
+        let data = await api.getAuth()
+        await dispatch(getProfileThunk(data.data.userId))
+        dispatch(actionsProfile.setLogData(data.data))
+    }
 }
-type ProfileType = {
-    userId: number,
-    firstName: string,
-    secondName: string,
-    status: string,
-    avatar: string
+
+export const getProfileThunk = (userId: number): ThunkProfileType => {
+    return async (dispatch) => {
+        let data = await api.getProfile(userId)
+        dispatch(actionsProfile.setProfile(data.data))
+    }
+}
+
+type LogData = {
+    userId: number | null
+    email: string | null
+    isLogged: boolean | null
+}
+export type ProfileType = {
+    userId: number | null
+    firstName: string | null
+    secondName: string | null
+    status: string | null
+    avatar: string | undefined
 }
 
 let initialState = {
-    profileData: {
-        userId: 0,
-        firstName: 'Kirill',
-        secondName: 'Dubov',
-        status: 'Ya sdelyal',
-        avatar: Pendalf
-    } as ProfileType,
+    profileData: {} as ProfileType,
     loginData: {} as LogData,
     logText: {
         email: 'kirill.dubov.2012@mail.ru',
         password: 'qwerty'
+    },
+    dataToEdit: {
+        firstName: '',
+        secondName: '',
+        status: ''
     }
 }
 

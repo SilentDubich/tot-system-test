@@ -1,51 +1,34 @@
 {
   "data": [
     {
-      "msgId": 0,
+      "msgId": 6,
+      "senderId": 0,
       "senderFrstName": "Kirill",
       "senderScndName": "Dubov",
-      "msgText": "Hello World !",
+      "msgText": "dawdawd",
       "isEdited": false,
-      "addedAt": "05.08.2020 12:50",
-      "senderAva": "some string"
+      "addedAt": "Thu Aug 06 2020",
+      "senderAva": "/static/media/pendalf.698b2495.jpg"
     },
     {
-      "msgId": 1,
+      "msgId": 7,
+      "senderId": 0,
       "senderFrstName": "Kirill",
       "senderScndName": "Dubov",
-      "msgText": "dwadwd",
+      "msgText": "awdawd",
       "isEdited": false,
-      "addedAt": "Wed Aug 05 2020",
-      "senderAva": "some string"
+      "addedAt": "Thu Aug 06 2020",
+      "senderAva": "/static/media/pendalf.698b2495.jpg"
     },
     {
-      "msgId": 2,
+      "msgId": 8,
+      "senderId": 0,
       "senderFrstName": "Kirill",
       "senderScndName": "Dubov",
-      "msgText": "hello",
-      "isEdited": false,
-      "addedAt": "Wed Aug 05 2020",
-      "senderAva": "some string"
-    },
-    {
-      "msgId": 3,
-      "senderFrstName": "Kirill",
-      "senderScndName": "Dubov",
-      "msgText": "hi",
-      "isEdited": false,
-      "addedAt": "Wed Aug 05 2020",
-      "senderAva": "some string"
-    },
-    {
-      "msgId": 5,
-      "senderFrstName": "Kirill",
-      "senderScndName": "Dubov",
-      "msgText": "he",
+      "msgText": "fesfsefsf",
       "isEdited": false,
       "addedAt": "Thu Aug 06 2020",
       "senderAva": "/static/media/pendalf.698b2495.jpg"
     }
-  ],
-  "resultCode": 0,
-  "errors": []
+  ]
 }

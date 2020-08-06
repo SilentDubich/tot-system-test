@@ -1,16 +1,20 @@
-import React from 'react';
+import React, {FC} from 'react';
 import ReactDOM from 'react-dom';
-import {Provider} from 'react-redux';
+import {connect, Provider} from 'react-redux';
 import './index.css';
 import {App} from './App';
 import * as serviceWorker from './serviceWorker';
 import {store} from "./Redux/store";
 import {BrowserRouter} from "react-router-dom";
+import {AppWrapper} from "./appMiddleware";
+
+
+
 
 ReactDOM.render(
     <BrowserRouter>
         <Provider store={store}>
-            <App/>
+            <AppWrapper/>
         </Provider>
     </BrowserRouter>,
     document.getElementById('root')
