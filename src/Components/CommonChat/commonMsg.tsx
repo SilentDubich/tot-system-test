@@ -15,7 +15,7 @@ export const CommonMsg: FC<PropsType> = (props) => {
     return(
         <div>
             <div>
-                <img src={props.ava} alt=""/>
+                {/*<img src={props.ava} alt=""/>*/}
                 <span>{props.senderFN}</span>
                 <span>{props.senderSN}</span>
                 <span>{props.addedAt}</span>

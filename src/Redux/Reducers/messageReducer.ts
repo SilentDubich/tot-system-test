@@ -29,11 +29,10 @@ export const getMessagesThunk = (method: string): ThunkMsgType => {
     }
 }
 
-export const postMessageThunk = (text: string, method: string): ThunkMsgType => {
+export const postMessageThunk = (text: string, method: string, fn: string, sn: string, ava: string): ThunkMsgType => {
     return async (dispatch) => {
-        let data = await api.postMessage(text, method)
+        let data = await api.postMessage(text, method, fn, sn, ava)
         dispatch(actionsMsg.getMsgs(data.data.data))
-        debugger
     }
 }
 

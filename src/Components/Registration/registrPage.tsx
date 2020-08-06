@@ -1,25 +1,26 @@
 import React, {FC} from "react";
 import {InputMsg} from "../CommonsComponents/inputMsg";
-import {connect} from "react-redux";
 import {AppStateType} from "../../Redux/store";
-import {actionsProfile, authProfileThunk} from "../../Redux/Reducers/profileReducer";
-import {NavLink} from "react-router-dom";
+import {connect} from "react-redux";
+import {actionsProfile, registerProfileThunk} from "../../Redux/Reducers/profileReducer";
+
 
 type PropsType = {
     email: string
     password: string
     updEmail: (text: string) => void
     updPassw: (text: string) => void
-    auth: (email: string, password: string) => void
+    register: (email: string, password: string) => void
 }
 
-export const LoginPage: FC<PropsType> = (props) => {
+
+export const RegisterPage: FC<PropsType> = (props) => {
     const postLog = () => {
-        props.auth(props.email, props.password)
+        props.register(props.email, props.password)
     }
-    return (
+    return(
         <div>
-            <span>Авторизация</span>
+            <span>Регистрация</span>
             <div>
                 <span>Email:</span>
                 <InputMsg placeholder={'Введи почту'} updTxt={props.updEmail} text={props.email}/>
@@ -31,13 +32,9 @@ export const LoginPage: FC<PropsType> = (props) => {
             <div>
                 <button onClick={postLog}>Отправить</button>
             </div>
-            <div>
-                <NavLink to='/register'>Нет аккаунта?</NavLink>
-            </div>
         </div>
     )
 }
-
 
 let mapStateToProps = (state: AppStateType) => {
     return {
@@ -46,9 +43,8 @@ let mapStateToProps = (state: AppStateType) => {
     }
 }
 
-export const LoginPageWrapper = connect(mapStateToProps,
-    {
-        updEmail: actionsProfile.updLogEmail,
-        updPassw: actionsProfile.updLogPassw,
-        auth: authProfileThunk
-    })(LoginPage)
+export const RegisterPageWrapper = connect(mapStateToProps, {
+    register: registerProfileThunk,
+    updEmail: actionsProfile.updLogEmail,
+    updPassw: actionsProfile.updLogPassw
+})(RegisterPage)

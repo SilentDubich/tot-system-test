@@ -4,12 +4,14 @@ import {MyProfileWrapper} from "./Components/MyProfile/myProfile";
 import {Navbar} from "./Components/Navbar/navbar";
 import {Redirect, Route, Switch} from "react-router";
 import {CommonChatWrapper} from "./Components/CommonChat/commonChat";
-import {LoginPage} from "./Components/Login/loginPage";
+import {LoginPageWrapper} from "./Components/Login/loginPage";
+import {RegisterPageWrapper} from "./Components/Registration/registrPage";
 
 export const App = (props: any) => {
     let Profile = () => <MyProfileWrapper/>
     let Common = () => <CommonChatWrapper/>
-    let Login = () => <LoginPage/>
+    let Login = () => <LoginPageWrapper/>
+    let Registr = () => <RegisterPageWrapper/>
   return (
       <div>
           <div>
@@ -18,9 +20,9 @@ export const App = (props: any) => {
         <div>
             <Switch>
                 <Route path='/profile' render={Profile}/>
-                <Route path='/common' render={Common}/>
-                <Route path='/work' render={Common}/>
+                <Route path={['/common', '/work']} render={Common}/>
                 <Route path='/login' render={Login}/>
+                <Route path='/register' render={Registr}/>
                 <Redirect from='/' to='/profile'/>
             </Switch>
         </div>

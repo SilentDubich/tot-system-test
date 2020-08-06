@@ -35,6 +35,15 @@
       "isEdited": false,
       "addedAt": "Wed Aug 05 2020",
       "senderAva": "some string"
+    },
+    {
+      "msgId": 5,
+      "senderFrstName": "Kirill",
+      "senderScndName": "Dubov",
+      "msgText": "he",
+      "isEdited": false,
+      "addedAt": "Thu Aug 06 2020",
+      "senderAva": "/static/media/pendalf.698b2495.jpg"
     }
   ],
   "resultCode": 0,

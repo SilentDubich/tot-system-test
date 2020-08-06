@@ -15,9 +15,8 @@ type PropsType = {
     sn: string
     ava: string
     updTxt: (text: string) => void
-    addMsg: (data: MessageType) => void
     getMsgs: (method: string) => void
-    postMsg: (text: string, method: string) => void
+    postMsg: (text: string, method: string, fn: string, sn: string, ava: string) => void
 }
 
 
@@ -34,8 +33,8 @@ const CommonChat: FC<PropsType & RouteComponentProps> = props => {
             <div>
                 {allMsgs}
             </div>
-            <InputMsg text={props.text} updTxt={props.updTxt}/>
-            <AddMsgButton loc={loc} postMsg={props.postMsg} msgText={props.text} fn={props.fn} sn={props.sn} ava={props.ava} addMsg={props.addMsg}/>
+            <InputMsg placeholder={'Напиши что-нибудь...'} text={props.text} updTxt={props.updTxt}/>
+            <AddMsgButton loc={loc} postMsg={props.postMsg} msgText={props.text} fn={props.fn} sn={props.sn} ava={props.ava}/>
         </div>
     )
 }
@@ -52,7 +51,7 @@ let mapStateToProps = (state: AppStateType) => {
 
 export const CommonChatWrapper = compose<ComponentType>(
     connect(mapStateToProps,
-        {updTxt: actionsMsg.updateInputText, addMsg: actionsMsg.addMsg, getMsgs: getMessagesThunk,
+        {updTxt: actionsMsg.updateInputText, getMsgs: getMessagesThunk,
             postMsg: postMessageThunk}),
     withRouter
 )
