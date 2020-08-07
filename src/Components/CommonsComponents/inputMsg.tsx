@@ -1,7 +1,10 @@
 import React, {FC} from "react";
+import SCommons from "../CommonStyles/commonStyles.module.css";
+import SChat from "../Chat/chatStyles.module.css"
 
 type PropsType = {
     text: string
+    type?: string
     placeholder: string
     updTxt: (text: string) => void
 }
@@ -14,9 +17,10 @@ export const InputMsg: FC<PropsType> = props => {
             props.updTxt(value)
         }
     }
+    const inputStyles = `${SCommons.commonStyle_input__decor} ${SCommons.commonStyle_input__margins} ${SCommons.commonStyle_input__large}`
     return(
         <div>
-            <input onChange={updateText} value={props.text} ref={textRef} placeholder={props.placeholder}/>
+            <input type={props.type || 'text'} className={inputStyles} onChange={updateText} value={props.text} ref={textRef} placeholder={props.placeholder}/>
         </div>
     )
 }

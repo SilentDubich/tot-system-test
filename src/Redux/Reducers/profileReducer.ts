@@ -1,6 +1,7 @@
 import {AppStateType, InferActionsTypes} from "../store";
 import {ThunkAction} from "redux-thunk";
 import {api} from "../API";
+import {actionsMsg} from "./messageReducer";
 // import Pendalf from '../../DataBase/imgs/pendalf.jpg'
 
 type ActionProfileType = InferActionsTypes<typeof actionsProfile>
@@ -8,8 +9,16 @@ type ThunkProfileType = ThunkAction<Promise<void>, AppStateType, unknown, Action
 export const actionsProfile = {
     setProfile: (user: ProfileType) => ({type: 'profileReducer/setProfile', user} as const),
     setLogData: (data: LogData) => ({type: 'profileReducer/setLogData', data} as const),
+    setInitilizate: () => ({type: 'profileReducer/setInitilizate'} as const),
+    setErr: (err: Array<string>) => ({type: 'profileReducer/setErr', err} as const),
+    setFetch: (bool: boolean) => ({type: 'profileReducer/setFetch', bool} as const),
     updLogEmail: (email: string) => ({type: 'profileReducer/updLogEmail', email} as const),
     updLogPassw: (password: string) => ({type: 'profileReducer/updLogPassw', password} as const)
+}
+
+enum ResultCodes {
+    Success = 0,
+    Error = 1
 }
 
 export const updateProfileInfoThunk = (userId: number | null, fn: string, sn: string, status: string): ThunkProfileType => {
@@ -29,9 +38,16 @@ export const updateProfilePhoto = (photo: any): ThunkProfileType => {
 
 export const authProfileThunk = (email: string, password: string): ThunkProfileType => {
     return async (dispatch) => {
+        dispatch(actionsProfile.setFetch(true))
         let data = await api.postLog(email, password)
-        dispatch(actionsProfile.setLogData(data.data))
-        await dispatch(getProfileThunk(data.data.userId))
+        if (data.data.resultCode === ResultCodes.Success) {
+            dispatch(actionsProfile.setLogData(data.data.data))
+            await dispatch(getProfileThunk(data.data.data.userId))
+            dispatch(actionsProfile.setFetch(false))
+        } else if (data.data.resultCode === ResultCodes.Error) {
+            dispatch(actionsProfile.setErr(data.data.error))
+            dispatch(actionsProfile.setFetch(false))
+        }
     }
 }
 
@@ -52,8 +68,11 @@ export const logOutProfileThunk = (): ThunkProfileType => {
 
 export const registerProfileThunk = (email: string, password: string): ThunkProfileType => {
     return async (dispatch) => {
+        dispatch(actionsProfile.setFetch(true))
         let data = await api.postRegister(email, password)
         dispatch(actionsProfile.setLogData(data.data))
+        await dispatch(getProfileThunk(data.data.userId))
+        dispatch(actionsProfile.setFetch(false))
     }
 }
 
@@ -62,13 +81,14 @@ export const getAuthThunk = (): ThunkProfileType => {
         let data = await api.getAuth()
         await dispatch(getProfileThunk(data.data.userId))
         dispatch(actionsProfile.setLogData(data.data))
+        dispatch(actionsProfile.setInitilizate())
     }
 }
 
 export const getProfileThunk = (userId: number): ThunkProfileType => {
     return async (dispatch) => {
         let data = await api.getProfile(userId)
-        dispatch(actionsProfile.setProfile(data.data))
+        data.data.resultCode === ResultCodes.Success && dispatch(actionsProfile.setProfile(data.data.data))
     }
 }
 
@@ -92,11 +112,9 @@ let initialState = {
         email: 'kirill.dubov.2012@mail.ru',
         password: 'qwerty'
     },
-    dataToEdit: {
-        firstName: '',
-        secondName: '',
-        status: ''
-    }
+    isInitilizated: false,
+    isFetch: false,
+    err: [] as Array<string>
 }
 
 type initialStateType = typeof initialState
@@ -107,6 +125,12 @@ export const profileInstructions = (state = initialState, action: ActionProfileT
             return {...state, profileData: action.user}
         case "profileReducer/setLogData":
             return {...state, loginData: action.data}
+        case "profileReducer/setInitilizate":
+            return {...state, isInitilizated: true}
+        case "profileReducer/setErr":
+            return {...state, err: action.err}
+        case "profileReducer/setFetch":
+            return {...state, isFetch: action.bool}
         case "profileReducer/updLogEmail":
             return {...state, logText: {email: action.email, password: state.logText.password}}
         case "profileReducer/updLogPassw":

@@ -5,14 +5,15 @@
       "firstName": "Kirill",
       "secondName": "Dubov",
       "status": "Ya sdelyal",
-      "avatar": "/static/media/pendalf.698b2495.jpg"
+      "avatar": "/static/media/pendalf.jpg"
     },
     {
       "userId": 1,
-      "firstName": "New",
-      "secondName": "User",
-      "status": null,
+      "firstName": "Kirik",
+      "secondName": "Dubovichkov",
+      "status": "I am a bossssssss",
       "avatar": null
     }
-  ]
+  ],
+  "resultCode": 0
 }

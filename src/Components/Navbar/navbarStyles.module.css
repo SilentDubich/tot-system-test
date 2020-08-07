@@ -1,0 +1,29 @@
+.container_ul__listStyleNone {
+    list-style-type: none;
+}
+
+.container_li__decor {
+    width: 10rem;
+    text-decoration: none;
+    font-size: 1.25rem;
+    color: #3a356a;
+    padding: .7rem;
+    border-radius: 1rem;
+    transition: 0.25s;
+}
+
+.container_li__marginBottom {
+    margin-bottom: 1.5rem;
+}
+
+.container_li__decor:hover {
+    background-color: rgba(58, 53, 106, 0.75);
+    transition: 0.25s;
+}
+
+.container_li__decorActive {
+    background-color: rgba(58, 53, 106, 0.5);
+}
+
+
+

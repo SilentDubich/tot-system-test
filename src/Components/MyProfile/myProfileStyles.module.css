@@ -2,4 +2,22 @@
     width: 300px;
     height: 300px;
     object-fit: cover;
+    box-shadow: 0 0 .5rem #606060;
+    border-radius: .5rem;
+}
+
+
+.container_RightSide__marginLeft {
+    margin-left: 1rem;
+}
+
+.container_namesItems__decor {
+    margin: 0 .25rem;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.container_statusItem__decor {
+    margin-left: .5rem;
+    font-size: 1rem;
 }

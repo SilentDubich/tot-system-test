@@ -85,7 +85,7 @@ app.put("/messages", function (request, response) {
         if (err) throw err
         msgs = JSON.parse(data)
         msgs = msgs.data.map(el => el.msgId === request.body.msgId ? {
-            msgId: el.msgId, senderFrstName: el.senderFrstName,
+            msgId: el.msgId, senderId: el.senderId, senderFrstName: el.senderFrstName,
             senderScndName: el.senderScndName, msgText: request.body.text, isEdited: true,
             addedAt: el.addedAt, senderAva: el.senderAva
         } : el)
@@ -126,11 +126,20 @@ app.post("/auth/login", function (request, response) {
             response.cookie('email', email, {maxAge: time})
             response.cookie('password', password, {maxAge: time})
             const sendData = {
-                userId: result[0].userId,
-                email: result[0].email,
-                isLogged: true
+                data: {
+                    userId: result[0].userId,
+                    email: result[0].email,
+                    isLogged: true
+                },
+                resultCode: 0
             }
             sendTempFile(sendData, response)
+        } else {
+            const errResData = {
+                error: ['Почта или пароль введен неверно !'],
+                resultCode: 1
+            }
+            sendTempFile(errResData, response)
         }
     })
 })
@@ -228,8 +237,12 @@ app.get('/profile', function (request, response) {
         if (err) throw err
         let users = JSON.parse(data)
         users = users.data.filter(el => el.userId === +request.query.userId)
+        const resData = {data: users[0], resultCode: 0}
         if (users.length > 0) {
-            sendTempFile(users[0], response)
+            sendTempFile(resData, response)
+        } else {
+            const errResData = {data: {errors: ['You not authorizated !'], resultCode: 1}}
+            sendTempFile(errResData, response)
         }
     })
 })
@@ -254,13 +267,13 @@ app.put('/profile', function (request, response) {
     })
 })
 
-app.put('/profile/photo', function (request, response) {
-    setOptions(response)
-    console.log('photo')
-    console.log(request)
-    console.log(request.file)
-
-})
+// app.put('/profile/photo', function (request, response) {
+//     setOptions(response)
+//     console.log('photo')
+//     console.log(request)
+//     console.log(request.file)
+//
+// })
 
 // начинаем прослушивать подключения на 3000 порту
 app.listen(3001);

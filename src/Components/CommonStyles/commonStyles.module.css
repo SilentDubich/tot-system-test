@@ -1,0 +1,88 @@
+.commonStyle__backgroundBorder {
+    background: #fff;
+    border-radius: .5rem;
+    box-shadow: 0 0 .5rem #606060;
+    margin-top: 1rem;
+}
+.commonStyle_container__width {
+    width: 1600px;
+    margin: 0 auto;
+}
+
+.commonStyle_ava__littleAva {
+    max-width: 40px;
+    max-height: 40px;
+    border-radius: 50%;
+}
+
+.commonStyle_items__padding {
+    padding: 1rem;
+}
+
+.commonStyle_items__displayFlex {
+    display: flex;
+}
+.commonStyle_items__displayCenter {
+    justify-content: center;
+    align-items: center;
+}
+
+.commonStyle_mainContent__flexSize {
+    flex: 10;
+}
+.commonStyle_navBar__flexSize {
+    flex: 2;
+}
+
+.commonStyle_button__violet {
+    border: none;
+    background: #3a356a;
+    color: #fff;
+    border-radius: .25rem;
+    box-shadow: 0 0 .2rem #606060;
+    font-size: .85rem;
+    padding: .3rem .5rem;
+    transition: .25s;
+}
+
+.commonStyle_button__violet:hover {
+    transition: .25s;
+    cursor: pointer;
+    background: rgba(58, 53, 106, 0.75);
+}
+
+.commonStyle_button__disabledButton {
+    background: rgba(58, 53, 106, 0.5);
+}
+.commonStyle_button__disabledButton:hover {
+    background: rgba(58, 53, 106, 0.5);
+    cursor: default;
+}
+
+.commonStyle_button__margins {
+    margin: .5rem;
+}
+
+.commonStyle_input__small {
+    width: 20rem;
+}
+.commonStyle_input__large {
+    width: 50rem;
+}
+
+.commonStyle_input__decor {
+    border: none;
+    border-radius: .25rem;
+    box-shadow: 0 0 .2rem #606060;
+    padding: .5rem;
+}
+
+.commonStyle_input__decor:focus {
+    outline: none;
+}
+
+.commonStyle_input__margins {
+    margin: .5rem;
+}
+
+

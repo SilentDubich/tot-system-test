@@ -1,13 +1,16 @@
-import React, {FC} from "react";
+import React, {FC, useState} from "react";
 import {InputMsg} from "../CommonsComponents/inputMsg";
 import {AppStateType} from "../../Redux/store";
 import {connect} from "react-redux";
 import {actionsProfile, registerProfileThunk} from "../../Redux/Reducers/profileReducer";
+import {ErrorType, mailValidator} from "../CommonsComponents/validators";
+import SCommons from "../CommonStyles/commonStyles.module.css";
 
 
 type PropsType = {
     email: string
     password: string
+    isFetch: boolean
     updEmail: (text: string) => void
     updPassw: (text: string) => void
     register: (email: string, password: string) => void
@@ -15,11 +18,19 @@ type PropsType = {
 
 
 export const RegisterPage: FC<PropsType> = (props) => {
+    const [err, setErr] = useState<ErrorType>({})
     const postLog = () => {
-        props.register(props.email, props.password)
+        let errors = mailValidator(props.email)
+        if (Object.keys(errors).length === 0) {
+            props.register(props.email, props.password)
+            setErr({})
+        } else {
+            setErr(errors)
+        }
     }
+    const buttonClasses = `${SCommons.commonStyle_button__violet} ${SCommons.commonStyle_button__margins}`
     return(
-        <div>
+        <div className={`${SCommons.commonStyle_items__padding} ${SCommons.commonStyle__backgroundBorder}`}>
             <span>Регистрация</span>
             <div>
                 <span>Email:</span>
@@ -27,10 +38,13 @@ export const RegisterPage: FC<PropsType> = (props) => {
             </div>
             <div>
                 <span>Password:</span>
-                <InputMsg placeholder={'Введи пароль'} updTxt={props.updPassw} text={props.password}/>
+                <InputMsg type={'password'} placeholder={'Введи пароль'} updTxt={props.updPassw} text={props.password}/>
             </div>
+            {err && <div><span>{err.mail}</span></div>}
             <div>
-                <button onClick={postLog}>Отправить</button>
+                <button disabled={props.isFetch}
+                        className={`${props.isFetch && SCommons.commonStyle_button__disabledButton} ${buttonClasses}`}
+                        onClick={postLog}>Отправить</button>
             </div>
         </div>
     )
@@ -39,7 +53,8 @@ export const RegisterPage: FC<PropsType> = (props) => {
 let mapStateToProps = (state: AppStateType) => {
     return {
         email: state.profileReducer.logText.email,
-        password: state.profileReducer.logText.password
+        password: state.profileReducer.logText.password,
+        isFetch: state.profileReducer.isFetch
     }
 }
 

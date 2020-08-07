@@ -1,0 +1,43 @@
+.container_input__background {
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 0 0 .5rem .5rem;
+    padding: .5rem 0;
+}
+
+.container_chatView__decor {
+    height: 45rem;
+    overflow: auto;
+}
+
+.container_chatView__decor::-webkit-scrollbar { width: 0; }
+
+.container_msgBlock__marginBottom {
+    margin-bottom: 1rem;
+}
+
+.container_msgHead__decor {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.container_msgHead__marginRight {
+    margin-right: .5rem;
+}
+
+.container_msgBody__margin {
+    margin: .5rem;
+}
+
+.container_button__inInput {
+    position:relative;
+    left: -50px;
+}
+.container_button__inInput:hover {
+    cursor: pointer;
+}
+
+.container_stickBox__rightPosition {
+    position: absolute;
+    top: 50%;
+    left: 60%;
+}
